@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tam Phủ 3D - Thế Giới Tâm Linh Huyền Bí</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Crimson+Text:wght@400;600&family=Dancing+Script:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-gold: #ffd700;
+            --secondary-orange: #ff8c00;
+            --accent-red: #ff6b6b;
+            --dark-blue: #1a1a2e;
+            --medium-blue: #16213e;
+            --light-blue: #0f3460;
+            --mystical-purple: #6a4c93;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 50%, var(--light-blue) 100%);
+            color: #fff;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.1s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .custom-cursor::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .custom-cursor.hover {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 215, 0, 0.2);
+        }
+        
+        /* 3D Scene Background */
+        .scene-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 69, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 105, 180, 0.1) 0%, transparent 50%),
+                conic-gradient(from 0deg at 50% 50%, transparent, rgba(106, 76, 147, 0.1), transparent);
+            animation: scene3dRotate 30s infinite linear;
+        }
+        
+        @keyframes scene3dRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-symbol {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float-symbol 20s infinite linear;
+            color: var(--primary-gold);
+        }
+        
+        @keyframes float-symbol {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Advanced Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            position: relative;
+        }
+        
+        .logo::before {
+            content: '🏮';
+            position: absolute;
+            left: -3rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            animation: lantern-swing 3s ease-in-out infinite;
+        }
+        
+        @keyframes lantern-swing {
+            0%, 100% { transform: translateY(-50%) rotate(-5deg); }
+            50% { transform: translateY(-50%) rotate(5deg); }
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(45deg, transparent, transparent);
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-orange));
+            transition: all 0.4s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Epic Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="temple" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse"><polygon points="25,10 40,25 25,40 10,25" fill="rgba(255,215,0,0.05)" stroke="rgba(255,215,0,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23temple)"/></svg>');
+            animation: temple-pattern 25s infinite linear;
+            opacity: 0.6;
+        }
+        
+        @keyframes temple-pattern {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: hero-float 6s ease-in-out infinite;
+        }
+        
+        @keyframes hero-float {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-20px) rotateX(2deg); }
+        }
+        
+        .hero h1 {
+            font-family: 'Philosopher', serif;
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange), var(--accent-red), var(--mystical-purple));
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 4s ease-in-out infinite, title-glow 3s ease-in-out infinite alternate;
+            text-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            transform: perspective(500px) rotateX(10deg);
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes title-glow {
+            0% { 
+                text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+                transform: perspective(500px) rotateX(10deg) scale(1);
+            }
+            100% { 
+                text-shadow: 0 0 60px rgba(255, 215, 0, 1), 0 0 90px rgba(255, 140, 0, 0.5);
+                transform: perspective(500px) rotateX(10deg) scale(1.02);
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.8;
+            animation: subtitle-wave 4s ease-in-out infinite;
+        }
+        
+        @keyframes subtitle-wave {
+            0%, 100% { transform: translateY(0px); }
+            25% { transform: translateY(-5px); }
+            75% { transform: translateY(5px); }
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+            color: var(--dark-blue);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+            border: 2px solid transparent;
+        }
+        
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(255, 215, 0, 0.5);
+        }
+        
+        .cta-button.secondary:hover {
+            background: var(--primary-gold);
+            color: var(--dark-blue);
+        }
+        
+        /* 3D Cards Grid */
+        .tam-phu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+        
+        .phu-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .phu-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.1), transparent, rgba(255, 140, 0, 0.1), transparent);
+            animation: card-rotate 25s linear infinite;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        
+        .phu-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        
+        .phu-card:hover::before,
+        .phu-card:hover::after {
+            opacity: 1;
+        }
+        
+        @keyframes card-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .phu-card:hover {
+            transform: translateY(-15px) rotateX(10deg) rotateY(5deg) scale(1.05);
+            border-color: var(--primary-gold);
+            box-shadow: 
+                0 30px 60px rgba(255, 215, 0, 0.3),
+                0 0 100px rgba(255, 215, 0, 0.2);
+        }
+        
+        .phu-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: icon-pulse 3s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes icon-pulse {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+            }
+            50% { 
+                transform: scale(1.1) rotate(5deg);
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+            }
+        }
+        
+        .phu-card h3 {
+            font-family: 'Philosopher', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-gold);
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .phu-card p {
+            line-height: 1.8;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            font-size: 1.1rem;
+        }
+        
+        /* Interactive 3D Deity Gallery */
+        .interactive-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            position: relative;
+        }
+        
+        .interactive-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 49%, rgba(255, 215, 0, 0.1) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(255, 140, 0, 0.1) 50%, transparent 51%);
+            background-size: 20px 20px;
+            animation: pattern-move 10s linear infinite;
+            opacity: 0.3;
+        }
+        
+        @keyframes pattern-move {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 20px 20px, -20px 20px; }
+        }
+        
+        .section-title {
+            font-family: 'Philosopher', serif;
+            font-size: 4rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange), var(--mystical-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+            animation: title-float 4s ease-in-out infinite;
+        }
+        
+        @keyframes title-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .deity-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+        
+        .deity-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+        }
+        
+        .deity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: translateX(-100%) skewX(-15deg);
+            transition: transform 0.8s ease;
+        }
+        
+        .deity-card:hover::before {
+            transform: translateX(100%) skewX(-15deg);
+        }
+        
+        .deity-card:hover {
+            transform: translateY(-10px) rotateX(10deg) scale(1.05);
+            border-color: var(--primary-gold);
+            box-shadow: 
+                0 20px 40px rgba(255, 215, 0, 0.3),
+                0 0 60px rgba(255, 215, 0, 0.2);
+        }
+        
+        .deity-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: avatar-glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes avatar-glow {
+            0% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.2); }
+            100% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.3); }
+        }
+        
+        .deity-name {
+            font-weight: bold;
+            color: var(--primary-gold);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            font-size: 1.3rem;
+        }
+        
+        .deity-title {
+            font-size: 1rem;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Virtual Altar Section */
+        .virtual-altar {
+            padding: 6rem 2rem;
+            background: radial-gradient(circle at center, rgba(106, 76, 147, 0.2) 0%, transparent 70%);
+            text-align: center;
+            position: relative;
+        }
+        
+        .altar-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            padding: 4rem;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .altar-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, rgba(255, 215, 0, 0.1), transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: altar-aura 20s linear infinite;
+        }
+        
+        @keyframes altar-aura {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .altar-title {
+            font-family: 'Philosopher', serif;
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .incense-sticks {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .incense-stick {
+            width: 6px;
+            height: 80px;
+            background: linear-gradient(to top, #8B4513, #CD853F);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .incense-stick::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            width: 2px;
+            height: 20px;
+            background: var(--secondary-orange);
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .incense-stick.lit::before {
+            opacity: 1;
+            animation: flame-flicker 1s ease-in-out infinite alternate;
+        }
+        
+        .incense-stick.lit::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            width: 20px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            transform: translateX(-50%);
+            animation: smoke-rise 3s ease-out infinite;
+        }
+        
+        @keyframes flame-flicker {
+            0% { transform: translateX(-50%) scale(1); }
+            100% { transform: translateX(-50%) scale(1.2); }
+        }
+        
+        @keyframes smoke-rise {
+            0% { 
+                opacity: 0.8;
+                transform: translateX(-50%) translateY(0) scale(0.5);
+            }
+            100% { 
+                opacity: 0;
+                transform: translateX(-50%) translateY(-50px) scale(1.5);
+            }
+        }
+        
+        .prayer-button {
+            background: linear-gradient(45deg, var(--mystical-purple), var(--accent-red));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            margin-top: 2rem;
+        }
+        
+        .prayer-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(106, 76, 147, 0.5);
+        }
+        
+        /* Audio Visualization */
+        .audio-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .audio-visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            gap: 3px;
+            height: 100px;
+            margin: 2rem 0;
+        }
+        
+        .audio-bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--mystical-purple), var(--primary-gold));
+            border-radius: 2px;
+            animation: audio-pulse 1s ease-in-out infinite alternate;
+        }
+        
+        .audio-bar:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+        
+        .audio-bar:nth-child(even) {
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes audio-pulse {
+            0% { height: 10px; }
+            100% { height: 80px; }
+        }
+        
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .audio-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+            border: none;
+            color: var(--dark-blue);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .audio-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+        
+        /* Advanced Footer */
+        footer {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+        
+        .footer-section h3 {
+            font-family: 'Philosopher', serif;
+            color: var(--primary-gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--primary-gold);
+            color: var(--dark-blue);
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        /* Mini Game Section */
+        .mini-game {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(255, 69, 0, 0.1) 0%, transparent 70%);
+        }
+        
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            padding: 3rem;
+            backdrop-filter: blur(15px);
+        }
+        
+        .game-title {
+            font-family: 'Philosopher', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 2rem;
+        }
+        
+        .fortune-wheel {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                var(--primary-gold) 0deg 60deg,
+                var(--secondary-orange) 60deg 120deg,
+                var(--accent-red) 120deg 180deg,
+                var(--mystical-purple) 180deg 240deg,
+                var(--primary-gold) 240deg 300deg,
+                var(--secondary-orange) 300deg 360deg
+            );
+            margin: 2rem auto;
+            position: relative;
+            cursor: pointer;
+            transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 5px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .fortune-wheel::before {
+            content: '▼';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--primary-gold);
+        }
+        
+        .fortune-wheel::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .fortune-texts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .fortune-text {
+            padding: 1rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .spin-button {
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+            color: var(--dark-blue);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .spin-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        
+        .spin-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Knowledge Quiz */
+        .quiz-section {
+            padding: 4rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .quiz-question {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .quiz-option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: var(--primary-gold);
+        }
+        
+        .quiz-option.correct {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: #00ff00;
+        }
+        
+        .quiz-option.wrong {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+        }
+        
+        .quiz-score {
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            margin: 2rem 0;
+        }
+        
+        /* Advanced Animations */
+        @keyframes mystical-entrance {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) scale(0.8) rotateX(90deg);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateY(50px) scale(0.9) rotateX(45deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotateX(0deg);
+            }
+        }
+        
+        .mystical-entrance {
+            animation: mystical-entrance 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .tam-phu-grid {
+                grid-template-columns: 1fr;
+                padding: 3rem 1rem;
+                gap: 2rem;
+            }
+            
+            .phu-card {
+                padding: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .deity-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .fortune-wheel {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+        
+        .theme-toggle::before {
+            content: '🌙';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+        
+        .theme-toggle::after {
+            content: '☀️';
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+        
+        .theme-indicator {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+            border-radius: 50%;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .light-mode .theme-indicator {
+            top: 70px;
+        }
+        
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--dark-blue), var(--medium-blue));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-lotus {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            position: relative;
+            animation: lotus-bloom 2s ease-in-out infinite;
+        }
+        
+        @keyframes lotus-bloom {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                border-radius: 50%;
+            }
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                border-radius: 30%;
+            }
+        }
+        
+        .loading-text {
+            margin-top: 2rem;
+            font-family: 'Philosopher', serif;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            animation: loading-pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes loading-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-lotus"></div>
+        <div class="loading-text">Đang kết nối với thế giới tâm linh...</div>
+    </div>
+    
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+    
+    <!-- 3D Background Scene -->
+    <div class="scene-3d"></div>
+    
+    <!-- Floating Mystical Elements -->
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <div class="theme-indicator"></div>
+    </div>
+    
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Tam Phủ Huyền Bí</div>
+            <ul class="nav-links">
+                <li><a href="#home">Trang Chủ</a></li>
+                <li><a href="#tam-phu">Tam Phủ</a></li>
+                <li><a href="#than-linh">Thần Linh</a></li>
+                <li><a href="#virtual-altar">Bàn Thờ</a></li>
+                <li><a href="#mini-game">Trò Chơi</a></li>
+                <li><a href="#quiz">Kiến Thức</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Thế Giới Tam Phủ</h1>
+            <p class="hero-subtitle">Hành trình khám phá bí ẩn tâm linh của Đạo Mẫu Việt Nam trong không gian 3D tương tác. Trải nghiệm những nghi lễ thiêng liêng, gặp gỡ các vị thần linh, và tìm hiểu về văn hóa tín ngưỡng sâu sắc của dân tộc.</p>
+            <div class="cta-buttons">
+                <a href="#tam-phu" class="cta-button">🚀 Khám Phá Ngay</a>
+                <a href="#virtual-altar" class="cta-button secondary">🏮 Bàn Thờ Ảo</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="tam-phu-grid mystical-entrance" id="tam-phu">
+        <div class="phu-card" data-phu="thien">
+            <span class="phu-icon">🌟</span>
+            <h3>Thiên Phủ</h3>
+            <p>Cung điện cao vời của các vị thần linh tối cao. Nơi đây cai quản về trời, mây, sấm chớp và định mệnh của con người. Các vị Mẫu Thượng Thiên với quyền năng vô biên, che chở và ban phước lành cho muôn loài.</p>
+        </div>
+        
+        <div class="phu-card" data-phu="dia">
+            <span class="phu-icon">🏔️</span>
+            <h3>Địa Phủ</h3>
+            <p>Vương quốc rộng lớn của đất đai và núi rừng. Nơi các vị thần bảo vệ làng xóm, canh giữ mùa màng, và chở che cuộc sống thường nhật. Mẫu Thoại cùng các vị thần núi rừng luôn phù hộ dân lành.</p>
+        </div>
+        
+        <div class="phu-card" data-phu="thuy">
+            <span class="phu-icon">🌊</span>
+            <h3>Thủy Phủ</h3>
+            <p>Thế giới mênh mông của nước và biển cả. Các vị thần nơi đây cai quản sông ngòi, mưa móc, và bảo vệ những người đi biển. Mẫu Thủy cùng Long Vương ban tặng nguồn nước sinh thủy cho muôn loài.</p>
+        </div>
+    </section>
+    
+    <section class="interactive-section mystical-entrance" id="than-linh">
+        <h2 class="section-title">🏮 Thần Linh Tam Phủ</h2>
+        <div class="deity-gallery">
+            <div class="deity-card" data-deity="mau-thuong-thien">
+                <div class="deity-avatar">👑</div>
+                <div class="deity-name">Mẫu Thượng Thiên</div>
+                <div class="deity-title">Chủ Thiên Phủ - Nữ thần tối cao</div>
+            </div>
+            
+            <div class="deity-card" data-deity="mau-thoai">
+                <div class="deity-avatar">🏰</div>
+                <div class="deity-name">Mẫu Thoại</div>
+                <div class="deity-title">Chủ Địa Phủ - Nữ thần đất đai</div>
+            </div>
+            
+            <div class="deity-card" data-deity="mau-thuy">
+                <div class="deity-avatar">🌸</div>
+                <div class="deity-name">Mẫu Thủy</div>
+                <div class="deity-title">Chủ Thủy Phủ - Nữ thần biển cả</div>
+            </div>
+            
+            <div class="deity-card" data-deity="thanh-tran">
+                <div class="deity-avatar">⚔️</div>
+                <div class="deity-name">Thánh Trần</div>
+                <div class="deity-title">Vị thánh bảo vệ dân làng</div>
+            </div>
+            
+            <div class="deity-card" data-deity="ong-hoang-bay">
+                <div class="deity-avatar">🦅</div>
+                <div class="deity-name">Ông Hoàng Bảy</div>
+                <div class="deity-title">Thần rừng núi hùng mạnh</div>
+            </div>
+            
+            <div class="deity-card" data-deity="ba-chua-xu">
+                <div class="deity-avatar">🌙</div>
+                <div class="deity-name">Bà Chúa Xứ</div>
+                <div class="deity-title">Thần núi thiêng liêng</div>
+            </div>
+            
+            <div class="deity-card" data-deity="quan-lon">
+                <div class="deity-avatar">🐉</div>
+                <div class="deity-name">Quan Lớn</div>
+                <div class="deity-title">Thần biển phong ba</div>
+            </div>
+            
+            <div class="deity-card" data-deity="co-be">
+                <div class="deity-avatar">🧚</div>
+                <div class="deity-name">Cô Bé</div>
+                <div class="deity-title">Thần trẻ em và may mắn</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="virtual-altar mystical-entrance" id="virtual-altar">
+        <div class="altar-container">
+            <h2 class="altar-title">🏮 Bàn Thờ Ảo Tam Phủ</h2>
+            <p>Thắp hương cầu an - Kết nối tâm linh</p>
+            
+            <div class="incense-sticks" id="incenseSticks">
+                <div class="incense-stick" data-prayer="binh-an"></div>
+                <div class="incense-stick" data-prayer="thinh-vuong"></div>
+                <div class="incense-stick" data-prayer="suc-khoe"></div>
+                <div class="incense-stick" data-prayer="hoc-hanh"></div>
+                <div class="incense-stick" data-prayer="tinh-du연"></div>
+            </div>
+            
+            <button class="prayer-button" id="prayerButton">🙏 Cầu Khấn</button>
+            <div id="prayerResult"></div>
+        </div>
+    </section>
+    
+    <section class="audio-section mystical-entrance">
+        <h2 class="section-title">🎵 Nhạc Tâm Linh</h2>
+        <div class="audio-visualizer" id="audioVisualizer"></div>
+        <div class="audio-controls">
+            <button class="audio-button" id="playBtn">▶️</button>
+            <button class="audio-button" id="pauseBtn">⏸️</button>
+            <button class="audio-button" id="nextBtn">⏭️</button>
+        </div>
+        <p>Thưởng thức những giai điệu thiêng liêng của hầu đồng</p>
+    </section>
+    
+    <section class="mini-game mystical-entrance" id="mini-game">
+        <div class="game-container">
+            <h2 class="game-title">🎰 Bánh Xe Vận Mệnh</h2>
+            <p>Xoay bánh xe để nhận lời tiên tri từ các vị thần linh</p>
+            
+            <div class="fortune-wheel" id="fortuneWheel"></div>
+            
+            <div class="fortune-texts">
+                <div class="fortune-text">Bình an trong gia đình</div>
+                <div class="fortune-text">Thịnh vượng phát tài</div>
+                <div class="fortune-text">Sức khỏe dồi dào</div>
+                <div class="fortune-text">Học hành tiến bộ</div>
+                <div class="fortune-text">Tình duyên viên mãn</div>
+                <div class="fortune-text">Công việc thành đạt</div>
+            </div>
+            
+            <button class="spin-button" id="spinButton">🎲 Xoay Bánh Xe</button>
+            <div id="fortuneResult"></div>
+        </div>
+    </section>
+    
+    <section class="quiz-section mystical-entrance" id="quiz">
+        <div class="quiz-container">
+            <h2 class="section-title">📚 Kiến Thức Tam Phủ</h2>
+            <div class="quiz-question" id="quizQuestion">Đang tải câu hỏi...</div>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-score" id="quizScore">Điểm: 0/0</div>
+            <button class="cta-button" id="nextQuestion">Câu tiếp theo</button>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🏮 Tín Ngưỡng Tam Phủ</h3>
+                <p>Gìn giữ và truyền bá những giá trị tâm linh truyền thống, kết nối con người với thiên nhiên và tổ tiên.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">📷</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">📺</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>🌟 Liên Kết</h3>
+                <p>• Đền chùa Tam Phủ</p>
+                <p>• Lễ hội hầu đồng</p>
+                <p>• Văn hóa dân gian</p>
+                <p>• Tâm linh Việt Nam</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>📞 Liên Hệ</h3>
+                <p>🏛️ Trung tâm nghiên cứu Tam Phủ</p>
+                <p>📧 contact@tamphu.vn</p>
+                <p>📱 +84 999 888 777</p>
+                <p>🌐 www.tamphu3d.vn</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Advanced JavaScript for Epic Interactions
+        
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+        });
+        
+        // Hover effects for cursor
+        const hoverElements = document.querySelectorAll('a, button, .deity-card, .phu-card, .incense-stick');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+        
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 2000);
+        });
+        
+        // Floating Mystical Elements
+        const floatingContainer = document.getElementById('floatingElements');
+        const symbols = ['🏮', '⭐', '🌸', '🦋', '✨', '🔮', '🪷', '🕊️'];
+        
+        function createFloatingSymbol() {
+            const symbol = document.createElement('div');
+            symbol.className = 'floating-symbol';
+            symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            symbol.style.left = Math.random() * 100 + '%';
+            symbol.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+            symbol.style.animationDuration = (Math.random() * 15 + 15) + 's';
+            symbol.style.animationDelay = Math.random() * 5 + 's';
+            
+            floatingContainer.appendChild(symbol);
+            
+            setTimeout(() => {
+                symbol.remove();
+            }, 30000);
+        }
+        
+        setInterval(createFloatingSymbol, 2000);
+        
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('mystical-entrance');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.phu-card, .deity-card, .virtual-altar, .mini-game').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Interactive Deity Cards
+        const deityData = {
+            'mau-thuong-thien': {
+                name: 'Mẫu Thượng Thiên',
+                title: 'Nữ Thần Tối Cao của Thiên Phủ',
+                description: 'Vị thần nữ cao quý nhất trong tín ngưỡng Tam Phủ, cai quản toàn bộ thế giới tâm linh. Bà là biểu tượng của sự từ bi, trí tuệ và quyền năng tối thượng.',
+                powers: ['Cai quản trời đất', 'Ban phước lành', 'Chữa bệnh tật', 'Độ trì chúng sinh'],
+                offerings: ['Hoa sen trắng', 'Trái cây tươi', 'Nước cam lộ', 'Nhang trầm']
+            },
+            'mau-thoai': {
+                name: 'Mẫu Thoại',
+                title: 'Nữ Thần Đất Đai',
+                description: 'Chủ nhân của Địa Phủ, bảo vệ đất đai và con người. Bà mang lại thịnh vượng cho nông nghiệp và che chở cho những người lao động.',
+                powers: ['Cai quản đất đai', 'Bảo vệ nông dân', 'Ban mùa màng', 'Giữ gìn làng xóm'],
+                offerings: ['Hoa cúc vàng', 'Gạo tám xoan', 'Trà xanh', 'Bánh chưng']
+            },
+            'mau-thuy': {
+                name: 'Mẫu Thủy',
+                title: 'Nữ Thần Biển Cả',
+                description: 'Vị chủ của Thủy Phủ, cai quản biển cả và sông ngòi. Bà phù hộ cho ngư dân và những người đi biển.',
+                powers: ['Cai quản nước biển', 'Bảo vệ ngư dân', 'Điều hòa thời tiết', 'Ban nguồn nước'],
+                offerings: ['Hoa sen hồng', 'Cá tươi', 'Rượu nếp', 'Nước suối trong']
+            },
+            'thanh-tran': {
+                name: 'Thánh Trần',
+                title: 'Vị Thánh Bảo Vệ',
+                description: 'Vị thánh dũng mãnh, bảo vệ dân làng khỏi tai họa và yêu ma quỷ quái. Ông là biểu tượng của lòng dũng cảm và công lý.',
+                powers: ['Trừ tà ma', 'Bảo vệ dân làng', 'Mang lại công lý', 'Xua đuổi bệnh tật'],
+                offerings: ['Gà luộc', 'Rượu mạnh', 'Hoa đỏ', 'Nhang nụ']
+            },
+            'ong-hoang-bay': {
+                name: 'Ông Hoàng Bảy',
+                title: 'Thần Rừng Núi',
+                description: 'Vị thần cai quản rừng núi, bảo vệ thiên nhiên và động vật hoang dã. Ông ban phúc cho những người thợ săn và dân miền núi.',
+                powers: ['Cai quản rừng núi', 'Bảo vệ động vật', 'Ban thịnh vượng', 'Chữa bệnh bằng thảo dược'],
+                offerings: ['Trái cây rừng', 'Thịt rừng', 'Rượu cần', 'Lá dong']
+            },
+            'ba-chua-xu': {
+                name: 'Bà Chúa Xứ',
+                title: 'Thần Núi Thiêng',
+                description: 'Nữ thần của núi Sam, bảo vệ vùng đất An Giang. Bà là biểu tượng của sự bảo bọc và lòng từ bi.',
+                powers: ['Cai quản núi Sam', 'Bảo vệ dân chúng', 'Ban may mắn', 'Chữa bệnh hiểm nghèo'],
+                offerings: ['Bánh ít lá gai', 'Nước mắm', 'Cơm dẻo', 'Hoa bưởi']
+            },
+            'quan-lon': {
+                name: 'Quan Lớn',
+                title: 'Thần Biển Phong Ba',
+                description: 'Vị thần cai quản phong ba bão táp trên biển. Ông có thể cứu những người gặp nạn trên biển.',
+                powers: ['Cai quản phong ba', 'Cứu nạn trên biển', 'Điều khiển sóng gió', 'Bảo vệ tàu thuyền'],
+                offerings: ['Cá cúng', 'Rượu trắng', 'Hoa súng', 'Muối biển']
+            },
+            'co-be': {
+                name: 'Cô Bé',
+                title: 'Thần May Mắn',
+                description: 'Nữ thần trẻ tuổi, mang lại may mắn và bảo vệ trẻ em. Cô là biểu tượng của sự trong sáng và hy vọng.',
+                powers: ['Bảo vệ trẻ em', 'Mang may mắn', 'Ban sự thông minh', 'Chữa bệnh cho trẻ nhỏ'],
+                offerings: ['Kẹo ngọt', 'Hoa nhỏ', 'Sữa tươi', 'Đồ chơi']
+            }
+        };
+        
+        document.querySelectorAll('.deity-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const deityId = this.dataset.deity;
+                const deity = deityData[deityId];
+                
+                if (deity) {
+                    showDeityModal(deity);
+                }
+            });
+        });
+        
+        function showDeityModal(deity) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                backdrop-filter: blur(20px);
+                animation: modalFadeIn 0.5s ease-out;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, var(--dark-blue), var(--medium-blue));
+                    padding: 3rem;
+                    border-radius: 25px;
+                    text-align: center;
+                    border: 3px solid var(--primary-gold);
+                    max-width: 600px;
+                    margin: 2rem;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    position: relative;
+                ">
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        position: absolute;
+                        top: 1rem;
+                        right: 1rem;
+                        background: none;
+                        border: none;
+                        color: var(--primary-gold);
+                        font-size: 2rem;
+                        cursor: pointer;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.background='rgba(255,215,0,0.2)'" onmouseout="this.style.background='none'">×</button>
+                    
+                    <h3 style="color: var(--primary-gold); font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Philosopher', serif;">${deity.name}</h3>
+                    <h4 style="color: var(--secondary-orange); font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9;">${deity.title}</h4>
+                    
+                    <p style="color: #fff; line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">${deity.description}</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                        <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,215,0,0.3);">
+                            <h5 style="color: var(--primary-gold); margin-bottom: 1rem; font-size: 1.2rem;">⚡ Quyền Năng</h5>
+                            ${deity.powers.map(power => `<p style="color: #fff; margin: 0.5rem 0; font-size: 0.9rem;">• ${power}</p>`).join('')}
+                        </div>
+                        <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,215,0,0.3);">
+                            <h5 style="color: var(--primary-gold); margin-bottom: 1rem; font-size: 1.2rem;">🎁 Lễ Vật</h5>
+                            ${deity.offerings.map(offering => `<p style="color: #fff; margin: 0.5rem 0; font-size: 0.9rem;">• ${offering}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <button onclick="performPrayer('${deity.name}')" style="
+                        background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+                        color: var(--dark-blue);
+                        border: none;
+                        padding: 1rem 2rem;
+                        border-radius: 25px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 1.1rem;
+                        transition: all 0.3s ease;
+                        margin: 0 0.5rem;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🙏 Cầu Khấn</button>
+                    
+                    <button onclick="learnMore('${deity.name}')" style="
+                        background: transparent;
+                        color: var(--primary-gold);
+                        border: 2px solid var(--primary-gold);
+                        padding: 1rem 2rem;
+                        border-radius: 25px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        font-size: 1.1rem;
+                        transition: all 0.3s ease;
+                        margin: 0 0.5rem;
+                    " onmouseover="this.style.background='var(--primary-gold)'; this.style.color='var(--dark-blue)'" onmouseout="this.style.background='transparent'; this.style.color='var(--primary-gold)'">📚 Tìm Hiểu Thêm</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+        
+        // Virtual Altar Interactions
+        document.querySelectorAll('.incense-stick').forEach(stick => {
+            stick.addEventListener('click', function() {
+                this.classList.toggle('lit');
+                
+                // Sound effect simulation
+                if (this.classList.contains('lit')) {
+                    showNotification('Đã thắp hương cầu ' + getPrayerText(this.dataset.prayer));
+                } else {
+                    showNotification('Đã tắt hương');
+                }
+            });
+        });
+        
+        function getPrayerText(prayer) {
+            const prayers = {
+                'binh-an': 'bình an',
+                'thinh-vuong': 'thịnh vượng', 
+                'suc-khoe': 'sức khỏe',
+                'hoc-hanh': 'học hành tiến bộ',
+                'tinh-duyen': 'tình duyên'
+            };
+            return prayers[prayer] || 'may mắn';
+        }
+        
+        document.getElementById('prayerButton').addEventListener('click', function() {
+            const litSticks = document.querySelectorAll('.incense-stick.lit');
+            if (litSticks.length === 0) {
+                showNotification('Hãy thắp ít nhất một nén hương trước khi cầu khấn! 🏮');
+                return;
+            }
+            
+            const prayers = Array.from(litSticks).map(stick => getPrayerText(stick.dataset.prayer));
+            const prayerText = prayers.join(', ');
+            
+            const blessings = [
+                `Các vị thần linh đã nghe lời cầu khấn về ${prayerText}. Phước lành sẽ đến với bạn! ✨`,
+                `Tam Phủ ban phúc! Lời cầu về ${prayerText} đã được chấp nhận. 🌟`,
+                `Thần linh phù hộ! ${prayerText.charAt(0).toUpperCase() + prayerText.slice(1)} sẽ được như ý. 🙏`,
+                `Mẫu Thượng Thiên ban phước! Điều ước về ${prayerText} sẽ thành hiện thực. 👑`
+            ];
+            
+            const blessing = blessings[Math.floor(Math.random() * blessings.length)];
+            document.getElementById('prayerResult').innerHTML = `
+                <div style="
+                    background: rgba(255,215,0,0.1);
+                    border: 2px solid var(--primary-gold);
+                    border-radius: 15px;
+                    padding: 1.5rem;
+                    margin-top: 2rem;
+                    animation: blessingGlow 2s ease-in-out infinite alternate;
+                ">
+                    <p style="color: var(--primary-gold); font-weight: bold; margin: 0;">${blessing}</p>
+                </div>
+            `;
+            
+            // Reset incense after prayer
+            setTimeout(() => {
+                litSticks.forEach(stick => stick.classList.remove('lit'));
+                document.getElementById('prayerResult').innerHTML = '';
+            }, 5000);
+        });
+        
+        // Audio Visualization
+        function createAudioBars() {
+            const visualizer = document.getElementById('audioVisualizer');
+            visualizer.innerHTML = '';
+            
+            for (let i = 0; i < 30; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'audio-bar';
+                bar.style.animationDelay = Math.random() * 2 + 's';
+                bar.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+                visualizer.appendChild(bar);
+            }
+        }
+        
+        createAudioBars();
+        
+        let isPlaying = false;
+        document.getElementById('playBtn').addEventListener('click', function() {
+            isPlaying = true;
+            document.querySelectorAll('.audio-bar').forEach(bar => {
+                bar.style.animationPlayState = 'running';
+            });
+            showNotification('🎵 Đang phát nhạc tâm linh...');
+        });
+        
+        document.getElementById('pauseBtn').addEventListener('click', function() {
+            isPlaying = false;
+            document.querySelectorAll('.audio-bar').forEach(bar => {
+                bar.style.animationPlayState = 'paused';
+            });
+            showNotification('⏸️ Đã tạm dừng nhạc');
+        });
+        
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            const songs = [
+                'Hầu Đồng Truyền Thống',
+                'Tứ Phủ Thánh Mẫu',
+                'Lên Đồng Mẫu Thượng Thiên',
+                'Nhạc Cúng Tam Phủ',
+                'Hát Văn Cổ Truyền'
+            ];
+            const randomSong = songs[Math.floor(Math.random() * songs.length)];
+            showNotification(`⏭️ Chuyển sang: ${randomSong}`);
+            createAudioBars();
+        });
+        
+        // Fortune Wheel Game
+        let isSpinning = false;
+        const fortuneWheel = document.getElementById('fortuneWheel');
+        const spinButton = document.getElementById('spinButton');
+        
+        const fortunes = [
+            'Bình an trong gia đình - Các vị thần sẽ bảo vệ ngôi nhà bạn',
+            'Thịnh vượng phát tài - Tài lộc sẽ đến từ mọi phương hướng',
+            'Sức khỏe dồi dào - Cơ thể khỏe mạnh, tinh thần minh mẫn',
+            'Học hành tiến bộ - Trí tuệ sáng suốt, thành tích vượt trội',
+            'Tình duyên viên mãn - Tình yêu đẹp sẽ đến với bạn',
+            'Công việc thành đạt - Sự nghiệp phát triển rực rỡ'
+        ];
+        
+        spinButton.addEventListener('click', function() {
+            if (isSpinning) return;
+            
+            isSpinning = true;
+            spinButton.disabled = true;
+            spinButton.textContent = '🎲 Đang Xoay...';
+            
+            const rotations = Math.random() * 360 + 1440; // At least 4 full rotations
+            fortuneWheel.style.transform = `rotate(${rotations}deg)`;
+            
+            setTimeout(() => {
+                const fortuneIndex = Math.floor((360 - (rotations % 360)) / 60);
+                const selectedFortune = fortunes[fortuneIndex];
+                
+                document.getElementById('fortuneResult').innerHTML = `
+                    <div style="
+                        background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+                        color: var(--dark-blue);
+                        padding: 2rem;
+                        border-radius: 20px;
+                        margin-top: 2rem;
+                        text-align: center;
+                        font-weight: bold;
+                        box-shadow: 0 10px 30px rgba(255,215,0,0.4);
+                        animation: fortuneReveal 1s ease-out;
+                    ">
+                        <h4 style="margin: 0 0 1rem 0; font-size: 1.3rem;">🔮 Lời Tiên Tri</h4>
+                        <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">${selectedFortune}</p>
+                    </div>
+                `;
+                
+                isSpinning = false;
+                spinButton.disabled = false;
+                spinButton.textContent = '🎲 Xoay Lại';
+            }, 3000);
+        });
+        
+        // Quiz System
+        const quizQuestions = [
+            {
+                question: 'Trong tín ngưỡng Tam Phủ, có bao nhiều cung phủ chính?',
+                options: ['2 cung', '3 cung', '4 cung', '5 cung'],
+                correct: 1,
+                explanation: 'Tam Phủ có nghĩa là "ba cung phủ": Thiên Phủ, Địa Phủ và Thủy Phủ.'
+            },
+            {
+                question: 'Vị thần nào là chủ nhân của Thiên Phủ?',
+                options: ['Mẫu Thoại', 'Mẫu Thượng Thiên', 'Mẫu Thủy', 'Thánh Trần'],
+                correct: 1,
+                explanation: 'Mẫu Thượng Thiên là vị nữ thần cao quý nhất, cai quản Thiên Phủ.'
+            },
+            {
+                question: 'Nghi lễ hầu đồng được thực hiện để làm gì?',
+                options: ['Giải trí', 'Kết nối với thần linh', 'Thi đấu', 'Học tập'],
+                correct: 1,
+                explanation: 'Hầu đồng là nghi lễ tâm linh để kết nối và giao tiếp với các vị thần linh.'
+            },
+            {
+                question: 'Mẫu Thủy cai quản lĩnh vực nào?',
+                options: ['Núi rừng', 'Biển cả và sông ngòi', 'Trời mây', 'Đất đai'],
+                correct: 1,
+                explanation: 'Mẫu Thủy là chủ nhân của Thủy Phủ, cai quản biển cả, sông ngòi và nguồn nước.'
+            },
+            {
+                question: 'Thánh Trần được biết đến với vai trò gì?',
+                options: ['Thần tình yêu', 'Vị thánh bảo vệ', 'Thần mùa màng', 'Thần biển cả'],
+                correct: 1,
+                explanation: 'Thánh Trần là vị thánh dũng mãnh, bảo vệ dân làng khỏi tà ma và tai họa.'
+            },
+            {
+                question: 'Đạo Mẫu có nguồn gốc từ đâu?',
+                options: ['Trung Quốc', 'Ấn Độ', 'Việt Nam', 'Thái Lan'],
+                correct: 2,
+                explanation: 'Đạo Mẫu là tín ngưỡng bản địa của Việt Nam, có nguồn gốc từ văn hóa cổ xưa.'
+            }
+        ];
+        
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let totalQuestions = 0;
+        
+        function loadQuestion() {
+            if (currentQuestionIndex >= quizQuestions.length) {
+                currentQuestionIndex = 0;
+            }
+            
+            const question = quizQuestions[currentQuestionIndex];
+            document.getElementById('quizQuestion').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option';
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectAnswer(index, question.correct, question.explanation));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('nextQuestion').style.display = 'none';
+        }
+        
+        function selectAnswer(selected, correct, explanation) {
+            totalQuestions++;
+            
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((option, index) => {
+                option.style.pointerEvents = 'none';
+                if (index === correct) {
+                    option.classList.add('correct');
+                } else if (index === selected && selected !== correct) {
+                    option.classList.add('wrong');
+                }
+            });
+            
+            if (selected === correct) {
+                quizScore++;
+                showNotification('🎉 Chính xác! ' + explanation);
+            } else {
+                showNotification('❌ Sai rồi! ' + explanation);
+            }
+            
+            document.getElementById('quizScore').textContent = `Điểm: ${quizScore}/${totalQuestions}`;
+            document.getElementById('nextQuestion').style.display = 'inline-block';
+        }
+        
+        document.getElementById('nextQuestion').addEventListener('click', function() {
+            currentQuestionIndex++;
+            loadQuestion();
+        });
+        
+        // Initialize quiz
+        loadQuestion();
+        
+        // Theme Toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('light-mode');
+            showNotification(document.body.classList.contains('light-mode') ? '☀️ Chế độ sáng' : '🌙 Chế độ tối');
+        });
+        
+        // Utility Functions
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 2rem;
+                background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+                color: var(--dark-blue);
+                padding: 1rem 2rem;
+                border-radius: 25px;
+                font-weight: bold;
+                z-index: 10001;
+                animation: slideInRight 0.5s ease-out;
+                box-shadow: 0 10px 30px rgba(255,215,0,0.4);
+                max-width: 300px;
+                word-wrap: break-word;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.5s ease-in forwards';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+        
+        function performPrayer(deityName) {
+            const prayers = [
+                `Đã gửi lời cầu khấn đến ${deityName}. Phước lành sẽ đến với bạn! 🙏`,
+                `${deityName} đã nhận được lời cầu của bạn. Hãy giữ lòng thành kính! ✨`,
+                `Lời cầu đến ${deityName} đã được chấp nhận. May mắn sẽ đi cùng bạn! 🌟`
+            ];
+            showNotification(prayers[Math.floor(Math.random() * prayers.length)]);
+        }
+        
+        function learnMore(deityName) {
+            showNotification(`📚 Tìm hiểu thêm về ${deityName} trong phần Kiến Thức!`);
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Add CSS animations dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            
+            @keyframes modalFadeIn {
+                from { opacity: 0; transform: scale(0.8); }
+                to { opacity: 1; transform: scale(1); }
+            }
+            
+            @keyframes blessingGlow {
+                0% { box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+                100% { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
+            }
+            
+            @keyframes fortuneReveal {
+                0% { transform: translateY(50px); opacity: 0; }
+                100% { transform: translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Easter Eggs
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > 10) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                activateSecretMode();
+                konamiCode = [];
+            }
+        });
+        
+        function activateSecretMode() {
+            document.body.style.animation = 'mysticalShift 3s ease-in-out';
+            
+            // Create rainbow effects
+            const rainbowStyle = document.createElement('style');
+            rainbowStyle.textContent = `
+                .rainbow-mode * {
+                    animation: rainbow 2s linear infinite !important;
+                }
+                @keyframes rainbow {
+                    0% { filter: hue-rotate(0deg); }
+                    100% { filter: hue-rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(rainbowStyle);
+            document.body.classList.add('rainbow-mode');
+            
+            showNotification('🌈 Chế độ bí mật đã kích hoạt! Tam Phủ trong sắc cầu vồng! 🌈');
+            
+            setTimeout(() => {
+                document.body.classList.remove('rainbow-mode');
+                rainbowStyle.remove();
+                document.body.style.animation = '';
+            }, 10000);
+        }
+        
+        // Performance optimization
+        let ticking = false;
+        function updateScrollEffects() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    // Update scroll-based animations here
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', updateScrollEffects);
+        
+        // Initialize everything
+        console.log('🏮 Tam Phủ 3D Website Loaded Successfully! 🌟');
+        showNotification('🏮 Chào mừng đến với thế giới Tam Phủ! 🌟');
+    </script>
+</body>
+</html>
